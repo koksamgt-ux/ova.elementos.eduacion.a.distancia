@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVA - Elementos de la Educación a Distancia</title>
+<style>
+    :root {
+        --primary-color: #6a0dad;
+        --secondary-color: #ff85a1;
+        --accent-color: #ff3366;
+        --bg-color: #fce4ec;
+        --card-bg: #ffffff;
+        --text-color: #4a4a4a;
+        --correct-color: #2ec4b6;
+        --incorrect-color: #e63946;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(-45deg, #ffe6f0, #f3e5f5, #e1bee7, #fff0f5);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: var(--text-color);
+        margin: 0;
+        padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Elementos decorativos de fondo */
+    .bg-bubble {
+        position: fixed;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.4);
+        animation: float 8s infinite ease-in-out;
+        z-index: -1;
+    }
+    .b1 { width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s; }
+    .b2 { width: 150px; height: 150px; top: 60%; right: 5%; animation-delay: 2s; }
+    .b3 { width: 80px; height: 80px; bottom: 10%; left: 20%; animation-delay: 4s; }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    .ova-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 25px;
+        box-shadow: 0 15px 35px rgba(106, 13, 173, 0.15);
+        padding: 30px;
+        border: 3px solid #ffccd5;
+    }
+
+    /* Encabezado Alegre con Ícono SVG */
+    .header-ova {
+        text-align: center;
+        background: linear-gradient(135deg, #7b2cbf, #ff6584);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 20px rgba(255, 101, 132, 0.3);
+    }
+
+    .header-icon {
+        width: 60px;
+        height: 60px;
+        fill: white;
+        margin-bottom: 10px;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    .header-ova h1 {
+        margin: 0;
+        font-size: 2.2em;
+        letter-spacing: 0.5px;
+    }
+
+    .header-ova p {
+        margin-top: 8px;
+        font-size: 1.1em;
+        opacity: 0.95;
+    }
+
+    /* Secciones Acordeón */
+    .section-title {
+        color: var(--primary-color);
+        border-bottom: 3px solid var(--secondary-color);
+        padding-bottom: 5px;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .accordion {
+        background-color: #fff0f5;
+        color: var(--primary-color);
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: 2px solid #ffd6e0;
+        text-align: left;
+        outline: none;
+        font-size: 1.15em;
+        font-weight: bold;
+        transition: 0.3s;
+        border-radius: 15px;
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .active, .accordion:hover {
+        background-color: #ffe3ec;
+        border-color: var(--secondary-color);
+    }
+
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+        border-left: 5px solid var(--accent-color);
+        margin-bottom: 10px;
+        border-radius: 0 0 15px 15px;
+    }
+
+    /* Tarjetas Didácticas con Iconos */
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .card {
+        background: #fff9fb;
+        border: 2px solid #ffccd5;
+        padding: 20px;
+        border-radius: 18px;
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(255, 133, 161, 0.2);
+    }
+
+    .card-icon {
+        font-size: 2.2em;
+        margin-bottom: 10px;
+    }
+
+    .card h4 {
+        color: var(--primary-color);
+        margin: 5px 0 10px 0;
+    }
+
+    /* Práctica Interactiva */
+    .dropzone-container {
+        display: flex;
+        gap: 15px;
+        justify-content: space-between;
+        margin-top: 15px;
+        flex-wrap: wrap;
+    }
+
+    .dropzone {
+        flex: 1;
+        min-width: 220px;
+        background: #fdf0f5;
+        border: 2px dashed var(--accent-color);
+        border-radius: 15px;
+        padding: 15px;
+        min-height: 140px;
+        text-align: center;
+    }
+
+    .dropzone h4 {
+        margin-top: 0;
+        color: var(--primary-color);
+    }
+
+    .draggable-items {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+        background: #f7e6ef;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .item {
+        background: white;
+        border: 2px solid var(--primary-color);
+        padding: 10px 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 0.95em;
+        color: var(--primary-color);
+        font-weight: 600;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+        transition: 0.2s;
+    }
+
+    .item:hover {
+        transform: scale(1.05);
+    }
+
+    /* Estilos del Quiz */
+    .quiz-box {
+        background: #fff8fa;
+        border: 2px solid #f2c6d4;
+        border-radius: 20px;
+        padding: 25px;
+        margin-top: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    }
+
+    .question {
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-bottom: 15px;
+        color: #5a2a82;
+    }
+
+    .options button {
+        display: block;
+        width: 100%;
+        padding: 12px 15px;
+        margin: 8px 0;
+        background: white;
+        border: 2px solid #eab8c6;
+        border-radius: 12px;
+        text-align: left;
+        cursor: pointer;
+        font-size: 1em;
+        transition: 0.2s;
+    }
+
+    .options button:hover {
+        background: #ffe3ec;
+        border-color: var(--accent-color);
+    }
+
+    .options button.correct {
+        background-color: #d4edda !important;
+        border-color: #2ec4b6 !important;
+        color: #155724;
+        font-weight: bold;
+    }
+
+    .options button.incorrect {
+        background-color: #f8d7da !important;
+        border-color: #e63946 !important;
+        color: #721c24;
+    }
+
+    .score-board {
+        text-align: center;
+        font-size: 1.4em;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-top: 20px;
+        padding: 12px;
+        background: #f4d8e8;
+        border-radius: 12px;
+    }
+
+    .btn-reset {
+        display: block;
+        margin: 20px auto 0 auto;
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1em;
+        box-shadow: 0 4px 10px rgba(255, 51, 102, 0.3);
+        transition: 0.3s;
+    }
+
+    .btn-reset:hover {
+        background: #e02454;
+        transform: scale(1.05);
+    }
+</style>
+</head>
+<body>
+
+<div class="bg-bubble b1"></div>
+<div class="bg-bubble b2"></div>
+<div class="bg-bubble b3"></div>
+
+<div class="ova-container">
+    <!-- Encabezado Ilustrado -->
+    <div class="header-ova">
+        <svg class="header-icon" viewBox="0 0 24 24">
+            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+        </svg>
+        <h1>Elementos de la Educación a Distancia</h1>
+        <p>✨ Módulo 4 - Entornos Virtuales e Interacción ✨</p>
+    </div>
+
+    <!-- Propósito -->
+    <p><strong>💡 Propósito del recurso:</strong> Sintetizar de forma visual e interactiva los elementos que intervienen en la Educación a Distancia (pedagógicos, comunicativos y tecnológicos) para comprender el rol activo de cada componente[cite: 3].</p>
+
+    <!-- Acordeones de Contenido -->
+    <h3 class="section-title">📚 Contenidos del Módulo</h3>
+
+    <button class="accordion"><span>🌸 1. Componentes Pedagógicos</span> <span>+</span></button>
+    <div class="panel">
+        <br>
+        <p>Centrados en los actores del aprendizaje y el proceso formativo[cite: 3]:</p>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">👩‍🏫</div>
+                <h4>Comunidad Educativa</h4>
+                <p>Administrador, Docente (facilitador), Estudiante (centro del proceso) y Padres de familia[cite: 2, 3].</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📖</div>
+                <h4>Recursos Educativos</h4>
+                <p>Libros, radio, cine, videos, televisión y videoconferencias[cite: 2, 3].</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📝</div>
+                <h4>Evaluación</h4>
+                <p>Diagnóstica, Formativa y Sumativa. Autoevaluación, Coevaluación y Heteroevaluación[cite: 2, 3].</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="accordion"><span>💬 2. Componentes Comunicativos</span> <span>+</span></button>
+    <div class="panel">
+        <br>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h4>Sincrónicos</h4>
+                <p>Interacción simultánea en tiempo real: Chat, Audioconferencia y Videoconferencia[cite: 2, 3].</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📬</div>
+                <h4>Asincrónicos</h4>
+                <p>Interacción flexible en tiempo diferido: Correo Electrónico y Foros de Discusión[cite: 2, 3].</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="accordion"><span>💻 3. Componentes Tecnológicos</span> <span>+</span></button>
+    <div class="panel">
+        <br>
+        <p>Herramientas e infraestructura digital que hacen posible el campus virtual[cite: 2, 3]:</p>
+        <ul>
+            <li><strong>Plataformas Educativas:</strong> Software libre (Moodle) y Software Comercial (Blackboard)[cite: 2, 3].</li>
+            <li><strong>Informática Educativa & Web 2.0:</strong> Redes de trabajo colaborativo, comunidades virtuales de aprendizaje e interacción social[cite: 2, 3].</li>
+        </ul>
+    </div>
+
+    <!-- Actividad Práctica (Clasificación Didáctica) -->
+    <h3 class="section-title">🎨 Práctica Interactiva: Clasifica el Elemento</h3>
+    <p>Haz clic en una tarjeta y luego en el contenedor al que pertenece[cite: 3]:</p>
+    
+    <div class="draggable-items" id="items-container">
+        <div class="item" data-cat="comunicativo" onclick="selectItem(this)">📹 Reunión por Videoconferencia[cite: 3]</div>
+        <div class="item" data-cat="pedagogico" onclick="selectItem(this)">📊 Evaluación Formativa[cite: 3]</div>
+        <div class="item" data-cat="tecnologico" onclick="selectItem(this)">🎓 Plataforma Moodle[cite: 3]</div>
+        <div class="item" data-cat="pedagogico" onclick="selectItem(this)">🙋‍♀️ Estudiante en Autoformación[cite: 3]</div>
+        <div class="item" data-cat="comunicativo" onclick="selectItem(this)">💬 Foro de discusión[cite: 3]</div>
+        <div class="item" data-cat="tecnologico" onclick="selectItem(this)">🌐 Aplicaciones Web 2.0[cite: 3]</div>
+    </div>
+
+    <div class="dropzone-container">
+        <div class="dropzone" onclick="placeItem('pedagogico', this)">
+            <h4>👩‍🏫 Pedagógico</h4>
+        </div>
+        <div class="dropzone" onclick="placeItem('comunicativo', this)">
+            <h4>💬 Comunicativo</h4>
+        </div>
+        <div class="dropzone" onclick="placeItem('tecnologico', this)">
+            <h4>💻 Tecnológico</h4>
+        </div>
+    </div>
+
+    <!-- Quiz Evaluativo (Reinicia estrictamente en 0%) -->
+    <h3 class="section-title">⭐ Quiz de Comprobación</h3>
+    <div class="quiz-box">
+        <div id="quiz-body">
+            <!-- La pregunta se carga dinámicamente -->
+        </div>
+        <div class="score-board">
+            Puntaje Obtenido: <span id="score-val">0%</span>
+        </div>
+        <button class="btn-reset" onclick="resetQuiz()">🔄 Reiniciar Quiz</button>
+    </div>
+</div>
+
+<script>
+    // Desplegable Acordeón
+    const acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            const panel = this.nextElementSibling;
+            const spanPlus = this.querySelectorAll('span')[1];
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+                spanPlus.innerText = '+';
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+                spanPlus.innerText = '-';
+            }
+        });
+    }
+
+    // Clasificación didáctica interactiva
+    let selectedItem = null;
+
+    function selectItem(elem) {
+        if(selectedItem) selectedItem.style.border = "2px solid var(--primary-color)";
+        selectedItem = elem;
+        selectedItem.style.border = "2px solid var(--accent-color)";
+    }
+
+    function placeItem(category, zone) {
+        if (!selectedItem) return;
+        if (selectedItem.getAttribute('data-cat') === category) {
+            zone.appendChild(selectedItem);
+            selectedItem.style.border = "2px solid #2ec4b6";
+            selectedItem.style.background = "#e8f8f5";
+            selectedItem.onclick = null;
+            selectedItem = null;
+        } else {
+            alert('¡Categoría incorrecta! Intenta seleccionar el contenedor adecuado.');
+        }
+    }
+
+    // Quiz Evaluativo (Puntaje ajustado a 0% inicial)
+    const questions = [
+        {
+            q: "1. ¿Cuál es el rol principal del estudiante en la Educación a Distancia?",
+            options: ["A) Receptor pasivo de información", "B) Centro y protagonista de su aprendizaje", "C) Entregador de tareas únicamente"],
+            correct: 1
+        },
+        {
+            q: "2. ¿Cuál de las siguientes es una herramienta de comunicación SINCRÓNICA?",
+            options: ["A) Correo electrónico", "B) Foro de discusión", "C) Videoconferencia en tiempo real"],
+            correct: 2
+        },
+        {
+            q: "3. ¿Qué evaluación se efectúa ANTES de iniciar los temas para conocer conocimientos previos?",
+            options: ["A) Evaluacion Sumativa", "B) Evaluación Diagnóstica", "C) Evaluación Formativa"],
+            correct: 1
+        },
+        {
+            q: "4. Moodle pertenece a la categoría de:",
+            options: ["A) Plataformas de Software Libre", "B) Plataformas de Software Comercial", "C) Canales asincrónicos por correo"],
+            correct: 0
+        },
+        {
+            q: "5. ¿Cómo se componen las estrategias didácticas?",
+            options: ["A) Exclusivamente exámenes", "B) Estrategias de enseñanza y de aprendizaje", "C) Libros impresos"],
+            correct: 1
+        }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuiz() {
+        const quizBody = document.getElementById("quiz-body");
+        if (currentQ < questions.length) {
+            const q = questions[currentQ];
+            let html = `<div class="question">${q.q}</div><div class="options">`;
+            q.options.forEach((opt, idx) => {
+                html += `<button onclick="checkAnswer(${idx}, this)">${opt}</button>`;
+            });
+            html += `</div>`;
+            quizBody.innerHTML = html;
+        } else {
+            quizBody.innerHTML = `<h4>🎉 ¡Felicitaciones! Has completado la revisión del módulo.</h4>`;
+        }
+    }
+
+    function checkAnswer(selected, btn) {
+        const q = questions[currentQ];
+        const buttons = btn.parentElement.querySelectorAll('button');
+        
+        buttons.forEach(b => b.disabled = true);
+
+        if (selected === q.correct) {
+            btn.classList.add('correct');
+            score++;
+        } else {
+            btn.classList.add('incorrect');
+            buttons[q.correct].classList.add('correct');
+        }
+
+        let percentage = Math.round((score / questions.length) * 100);
+        document.getElementById("score-val").innerText = percentage + "%";
+
+        setTimeout(() => {
+            currentQ++;
+            loadQuiz();
+        }, 1500);
+    }
+
+    function resetQuiz() {
+        currentQ = 0;
+        score = 0;
+        document.getElementById("score-val").innerText = "0%";
+        loadQuiz();
+    }
+
+    // Inicializar Quiz con 0%
+    loadQuiz();
+</script>
+
+</body>
+</html>
